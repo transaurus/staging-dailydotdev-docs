@@ -1,0 +1,94 @@
+{
+  "link.title.Product": {
+    "message": "Product",
+    "description": "The title of the footer links column with title=Product in the footer"
+  },
+  "link.title.Community": {
+    "message": "Community",
+    "description": "The title of the footer links column with title=Community in the footer"
+  },
+  "link.title.Company": {
+    "message": "Company",
+    "description": "The title of the footer links column with title=Company in the footer"
+  },
+  "link.title.Social": {
+    "message": "Social",
+    "description": "The title of the footer links column with title=Social in the footer"
+  },
+  "link.item.label.Home": {
+    "message": "Home",
+    "description": "The label of footer link with label=Home linking to https://daily.dev/"
+  },
+  "link.item.label.Chrome extension": {
+    "message": "Chrome extension",
+    "description": "The label of footer link with label=Chrome extension linking to https://chrome.google.com/webstore/detail/dailydev-the-homepage-dev/jlmpjdjjbgclbocgajdjefcidcncaied"
+  },
+  "link.item.label.Web version": {
+    "message": "Web version",
+    "description": "The label of footer link with label=Web version linking to https://app.daily.dev/"
+  },
+  "link.item.label.Changelog": {
+    "message": "Changelog",
+    "description": "The label of footer link with label=Changelog linking to https://changelog.daily.dev/"
+  },
+  "link.item.label.Open source": {
+    "message": "Open source",
+    "description": "The label of footer link with label=Open source linking to https://github.com/dailydotdev/.github/blob/master/CONTRIBUTING.md"
+  },
+  "link.item.label.Feature requests": {
+    "message": "Feature requests",
+    "description": "The label of footer link with label=Feature requests linking to https://github.com/dailydotdev/daily/discussions"
+  },
+  "link.item.label.Online events": {
+    "message": "Online events",
+    "description": "The label of footer link with label=Online events linking to https://www.meetup.com/the-monthly-dev-world-class-talks-by-expert-developers/"
+  },
+  "link.item.label.Swag store": {
+    "message": "Swag store",
+    "description": "The label of footer link with label=Swag store linking to https://store.daily.dev/"
+  },
+  "link.item.label.Blog": {
+    "message": "Blog",
+    "description": "The label of footer link with label=Blog linking to https://daily.dev/blog"
+  },
+  "link.item.label.Brand book": {
+    "message": "Brand book",
+    "description": "The label of footer link with label=Brand book linking to https://brand.daily.dev/"
+  },
+  "link.item.label.Contact": {
+    "message": "Contact",
+    "description": "The label of footer link with label=Contact linking to https://daily.dev/contact"
+  },
+  "link.item.label.Privacy": {
+    "message": "Privacy",
+    "description": "The label of footer link with label=Privacy linking to https://daily.dev/privacy"
+  },
+  "link.item.label.Terms": {
+    "message": "Terms",
+    "description": "The label of footer link with label=Terms linking to https://daily.dev/tos"
+  },
+  "link.item.label.Twitter/X": {
+    "message": "Twitter/X",
+    "description": "The label of footer link with label=Twitter/X linking to https://twitter.com/dailydotdev"
+  },
+  "link.item.label.GitHub": {
+    "message": "GitHub",
+    "description": "The label of footer link with label=GitHub linking to https://github.com/dailydotdev/daily"
+  },
+  "link.item.label.YouTube": {
+    "message": "YouTube",
+    "description": "The label of footer link with label=YouTube linking to https://www.youtube.com/channel/UCXUjtTfQWJa0G9K_SqRm3jQ"
+  },
+  "link.item.label.Instagram": {
+    "message": "Instagram",
+    "description": "The label of footer link with label=Instagram linking to https://www.instagram.com/dailydotdev/"
+  },
+  "link.item.label.TikTok": {
+    "message": "TikTok",
+    "description": "The label of footer link with label=TikTok linking to https://www.tiktok.com/@dailydotdev"
+  },
+  "copyright": {
+    "message": "© 2026 All rights reserved.",
+    "description": "The footer copyright"
+  }
+}

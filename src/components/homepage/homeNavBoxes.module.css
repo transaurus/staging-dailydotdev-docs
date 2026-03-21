@@ -1,0 +1,160 @@
+.features {
+  display: flex;
+  align-items: center;
+  padding: 2rem 0;
+  width: 100%;
+}
+
+.grid3col {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 56px;
+  margin: 0 auto;
+  padding: 0;
+  list-style: none;
+}
+
+.grid3col li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.grid3col li::marker {
+  display: none;
+}
+
+@media screen and (max-width: 1680px) {
+  .grid3col {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media screen and (max-width: 1180px) {
+  .grid3col {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .grid3col {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}
+
+.listContainer {
+  min-height: 20rem;
+}
+
+@media screen and (max-width: 768px) {
+  .listContainer {
+    min-height: 5rem;
+    padding-bottom: 1rem;
+  }
+}
+
+.listContainer ul {
+  padding-left: 0; /* Remove any left padding from the <ul> */
+  margin: 0; /* Reset default margin of <ul> */
+}
+
+.listContainer li {
+  list-style-type: none; /* Keep list style removed */
+  position: relative; /* Retain existing position */
+  padding-left: 0.28rem; /* Ensure list items match the padding of <h2> */
+  padding-top: 0.5rem;
+  font-size: 1rem; /* Retain font size */
+  color: #444; /* Retain text color */
+  transition: color 0.2s; /* Retain hover transition */
+}
+
+.listContainer li:hover {
+  /* color: #007bff; */
+}
+
+/* .listContainer li:before {
+  --ifm-menu-link-sublist-icon: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 24 24"><path fill="%2300bfff" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path></svg>');
+  background: var(--ifm-menu-link-sublist-icon) 50% / 1.25rem 1.25rem;
+  transform: rotate(90deg);
+  content: '';
+  position: absolute;
+  height: 1.25rem;
+  width: 1.25rem;
+  left: -1.5rem;
+  top: 0.5rem;
+} */
+
+.homecard {
+  background-color: #1c1f26;
+  width: 330px;
+  height: 510px;
+  padding: 20px;
+  position: relative;
+  display: block;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  /* transition: transform 0.3s, box-shadow 0.3s; */
+}
+
+.homecard:hover {
+  /* transform: translateY(-4px); */
+  /*box-shadow: 0 12px 30px rgba(192, 41, 240, 0.5); /* Purple shadow on hover */
+}
+
+html[data-theme='light'] .homecard {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  color: #333;
+}
+
+html[data-theme='dark'] .homecard {
+  /*transition: transform 0.3s, box-shadow 0.3s;*/
+}
+
+html[data-theme='dark'] .homecard:hover {
+  /*box-shadow: 0 12px 30px rgba(192, 41, 240, 0.5); /* Purple shadow on hover for dark theme */
+}
+
+.homecard h2 {
+  margin: 0; /* Remove default margin */
+  padding-left: 0.28rem; /* Match the list items' padding */
+  font-size: 1.5rem; /* Retain existing font size */
+  line-height: 1.4; /* Retain line height */
+  font-weight: 700; /* Retain font weight */
+  color: #222; /* Retain text color */
+  text-align: left; /* Ensure the text is left-aligned */
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+html[data-theme='dark'] .homecard h2 {
+  color: #e0e0e0;
+}
+
+.homecard a {
+  /* color: #007bff; */
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.homecard a:hover {
+  text-decoration: underline;
+}
+
+.homeIcon {
+  width: 32px;
+  height: 32px;
+  border-radius: 0 !important;
+  /* margin: 12px 0 4px 16px; */
+  filter: brightness(0.9);
+}
+
+html[data-theme='light'] .homeIcon {
+  filter: brightness(0.3);
+}
+
+html[data-theme='dark'] .homeIcon {
+  filter: brightness(1.5);
+}

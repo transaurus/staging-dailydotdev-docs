@@ -1,0 +1,54 @@
+/* Critical CSS for above-the-fold content - inlined for performance */
+
+/* Hero banner styles */
+.heroBanner_KU2A {
+  padding: 2rem 0 0 0;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Hero title optimization */
+.hero__title {
+  font-size: 3rem;
+  font-weight: 900;
+  line-height: 1.2;
+  margin-bottom: 0;
+  color: var(--ifm-font-color-base);
+}
+
+/* Container styles */
+.container {
+  max-width: var(--ifm-container-width);
+  margin: 0 auto;
+  padding: 0 var(--ifm-spacing-horizontal);
+}
+
+/* Critical navbar styles */
+.navbar {
+  background: var(--ifm-navbar-background-color);
+  box-shadow: var(--ifm-navbar-shadow);
+  height: var(--ifm-navbar-height);
+  padding: var(--ifm-navbar-padding-vertical) var(--ifm-navbar-padding-horizontal);
+}
+
+/* Critical layout styles */
+.main-wrapper {
+  display: flex;
+  flex: 1 0 auto;
+  flex-direction: column;
+}
+
+/* Mobile responsive for critical elements */
+@media screen and (max-width: 966px) {
+  .heroBanner_KU2A {
+    padding: 2rem;
+  }
+  
+  .hero__title {
+    font-size: 2rem;
+  }
+}
+
+/* Critical font loading optimization */
+@font-display: swap;
