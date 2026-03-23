@@ -1,0 +1,12 @@
+{
+  "sourceUrl": "https://github.com/dailydotdev/docs",
+  "branch": "main",
+  "docusaurusRoot": ".",
+  "translateCommand": "npx docusaurus write-translations",
+  "buildCommand": "npm run build",
+  "buildOutput": "build",
+  "packageManager": "npm",
+  "nodeVersion": "20.x",
+  "docusaurusVersion": "3.9.0",
+  "installFlags": "--legacy-peer-deps"
+}
