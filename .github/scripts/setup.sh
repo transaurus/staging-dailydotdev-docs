@@ -38,6 +38,17 @@ main() {
         log_error "i18n directory not found"
         exit 1
     fi
+
+    log_info "Running build..."
+    npm run build
+
+    if [ -d "build" ]; then
+        BUILD_COUNT=$(find build -type f | wc -l)
+        log_info "Build success! Generated $BUILD_COUNT files in build/."
+    else
+        log_error "build/ directory not found after build"
+        exit 1
+    fi
 }
 
 main "$@"
