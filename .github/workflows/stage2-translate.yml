@@ -1,26 +1,28 @@
 name: 'Stage 2: Translate and Rebuild'
 
 on:
+  push:
+    paths:
+      - '.github/workflows/stage2-translate.yml'
   workflow_dispatch:
     inputs:
       locales:
-        description: 'Comma-separated locales to add (e.g., zh-Hans,ja,ko)'
+        description: 'Comma-separated locales to add'
         required: true
         default: 'zh-Hans'
 
 jobs:
   translate_and_rebuild:
+    if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
-      - name: 'Checkout (has Stage 1 output)'
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           ref: 'main'
 
-      - name: 'Setup Node.js'
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: '22'
 
@@ -34,174 +36,67 @@ jobs:
           echo "buildOutput=$(jq -r '.buildOutput // "build"' .github/scripts/meta.json)" >> $GITHUB_OUTPUT
           echo "docusaurusRoot=$(jq -r '.docusaurusRoot // "."' .github/scripts/meta.json)" >> $GITHUB_OUTPUT
 
-      - name: 'Add i18n locale config to docusaurus.config'
+      - name: 'Add i18n locale config'
         run: |
           LOCALES="${{ github.event.inputs.locales }}"
-          DOC_ROOT="${{ steps.meta.outputs.docusaurusRoot }}"
-
-          # Find the config file
           CONFIG_FILE=""
           for ext in js ts mjs; do
-            if [ -f "${DOC_ROOT}/docusaurus.config.${ext}" ]; then
-              CONFIG_FILE="${DOC_ROOT}/docusaurus.config.${ext}"
-              break
-            fi
+            [ -f "docusaurus.config.${ext}" ] && CONFIG_FILE="docusaurus.config.${ext}" && break
           done
-
-          if [ -z "$CONFIG_FILE" ]; then
-            echo "ERROR: docusaurus.config not found"
-            exit 1
-          fi
-
-          echo "Config file: $CONFIG_FILE"
-          echo "Locales: $LOCALES"
-
-          # Build locale array for injection
+          [ -z "$CONFIG_FILE" ] && echo "No config found" && exit 1
+          
           LOCALE_ARRAY=$(echo "$LOCALES" | tr ',' '\n' | sed "s/.*/'&'/" | tr '\n' ',' | sed 's/,$//')
-
-          # Check if i18n config already exists
-          if grep -q "i18n" "$CONFIG_FILE"; then
-            echo "i18n config already exists, skipping modification"
-          else
-            # Inject i18n config. Strategy: find the first `{` after module.exports/export default
-            # and add i18n right after it.
+          
+          if ! grep -q "i18n" "$CONFIG_FILE"; then
             node -e "
             const fs = require('fs');
-            let content = fs.readFileSync('$CONFIG_FILE', 'utf8');
-
-            // i18n config to inject
-            const i18nConfig = \`
-  i18n: {
-    defaultLocale: 'en',
-    locales: ['en', ${LOCALE_ARRAY}],
-  },\`;
-
-            // Find the config object opening
-            // Common patterns: module.exports = { or export default {
-            const patterns = [
-              /(module\.exports\s*=\s*\{)/,
-              /(export\s+default\s*\{)/,
-              /(const\s+config\s*[:=]\s*\{)/,
-            ];
-
-            let injected = false;
-            for (const pattern of patterns) {
-              const match = content.match(pattern);
-              if (match) {
-                const idx = match.index + match[0].length;
-                content = content.slice(0, idx) + i18nConfig + content.slice(idx);
-                injected = true;
-                break;
-              }
+            let c = fs.readFileSync('$CONFIG_FILE', 'utf8');
+            const i18n = \"\n  i18n: { defaultLocale: 'en', locales: ['en', ${LOCALE_ARRAY}] },\";
+            for (const p of [/(module\.exports\s*=\s*\{)/, /(export\s+default\s*\{)/, /(const\s+config\s*[:=]\s*\{)/]) {
+              const m = c.match(p);
+              if (m) { c = c.slice(0, m.index + m[0].length) + i18n + c.slice(m.index + m[0].length); break; }
             }
-
-            if (!injected) {
-              console.log('WARNING: Could not find config object, prepending i18n');
-              // Fallback: look for first { after any export-like pattern
-              const fallback = content.indexOf('{');
-              if (fallback >= 0) {
-                content = content.slice(0, fallback + 1) + i18nConfig + content.slice(fallback + 1);
-              }
-            }
-
-            fs.writeFileSync('$CONFIG_FILE', content);
+            fs.writeFileSync('$CONFIG_FILE', c);
             console.log('Injected i18n config');
             "
           fi
 
-      - name: 'Place translated files'
+      - name: 'Place translated files (placeholder copies)'
         run: |
-          LOCALES="${{ github.event.inputs.locales }}"
-          DOC_ROOT="${{ steps.meta.outputs.docusaurusRoot }}"
-
-          # For each locale, copy English i18n JSONs as starting point
-          # (In production, the transaurus translation pipeline would replace these
-          # with actual translations. For now, we copy English as a placeholder
-          # to verify the build works with i18n enabled.)
-
-          for LOCALE in $(echo "$LOCALES" | tr ',' ' '); do
-            echo "Setting up locale: $LOCALE"
-
-            # Copy i18n JSON files
-            if [ -d "${DOC_ROOT}/i18n/en" ]; then
-              mkdir -p "${DOC_ROOT}/i18n/${LOCALE}"
-              cp -r "${DOC_ROOT}/i18n/en/"* "${DOC_ROOT}/i18n/${LOCALE}/"
-              echo "  Copied $(find "${DOC_ROOT}/i18n/${LOCALE}" -name '*.json' | wc -l) JSON files"
+          for LOCALE in $(echo "${{ github.event.inputs.locales }}" | tr ',' ' '); do
+            if [ -d "i18n/en" ]; then
+              mkdir -p "i18n/${LOCALE}"
+              cp -r "i18n/en/"* "i18n/${LOCALE}/"
+              echo "Copied i18n JSONs for ${LOCALE}"
             fi
-
-            # Copy docs for translation
-            # Docusaurus expects: i18n/{locale}/docusaurus-plugin-content-docs/current/
-            DOCS_DIR="${DOC_ROOT}/docs"
-            TARGET_DIR="${DOC_ROOT}/i18n/${LOCALE}/docusaurus-plugin-content-docs/current"
-            if [ -d "$DOCS_DIR" ]; then
-              mkdir -p "$TARGET_DIR"
-              cp -r "$DOCS_DIR/"* "$TARGET_DIR/"
-              echo "  Copied $(find "$TARGET_DIR" -type f | wc -l) doc files"
+            if [ -d "docs" ]; then
+              TARGET="i18n/${LOCALE}/docusaurus-plugin-content-docs/current"
+              mkdir -p "$TARGET"
+              cp -r docs/* "$TARGET/"
+              echo "Copied docs for ${LOCALE}"
             fi
           done
 
-      - name: 'Rebuild with translations'
+      - name: 'Rebuild'
         run: |
           if [ -f ".github/scripts/rebuild.sh" ]; then
             chmod +x .github/scripts/rebuild.sh
             bash .github/scripts/rebuild.sh
           else
-            echo "No rebuild.sh found, using meta.json build command"
-            DOC_ROOT="${{ steps.meta.outputs.docusaurusRoot }}"
-            cd "$DOC_ROOT"
-
-            # Install deps
-            if [ -f "pnpm-lock.yaml" ]; then
-              npm install -g pnpm && pnpm install --no-frozen-lockfile
-            elif [ -f "yarn.lock" ]; then
-              yarn install --frozen-lockfile 2>/dev/null || yarn install
-            else
-              npm install --legacy-peer-deps 2>/dev/null || npm install
-            fi
-
-            # Build
+            npm install --legacy-peer-deps 2>/dev/null || npm install
             ${{ steps.meta.outputs.buildCommand }}
           fi
 
-      - name: 'Verify build output'
-        run: |
-          BUILD_OUTPUT="${{ steps.meta.outputs.buildOutput }}"
-          if [ -d "$BUILD_OUTPUT" ] && [ -f "$BUILD_OUTPUT/index.html" ]; then
-            echo "Build verified: $(du -sh "$BUILD_OUTPUT" | cut -f1), $(find "$BUILD_OUTPUT" -type f | wc -l) files"
-
-            # Check if locale subdirectories exist in build output
-            for LOCALE in $(echo "${{ github.event.inputs.locales }}" | tr ',' ' '); do
-              if [ -d "$BUILD_OUTPUT/$LOCALE" ]; then
-                echo "  Locale $LOCALE: $(find "$BUILD_OUTPUT/$LOCALE" -type f | wc -l) files"
-              else
-                echo "  WARNING: $BUILD_OUTPUT/$LOCALE not found (Docusaurus may build locales differently)"
-              fi
-            done
-          else
-            echo "WARNING: Build output not found at $BUILD_OUTPUT"
-            find . -name "index.html" -path "*/build/*" -o -name "index.html" -path "*/public/*" 2>/dev/null | head -5
-          fi
-
-      - name: 'Commit translated build'
+      - name: 'Commit'
         run: |
           BUILD_OUTPUT="${{ steps.meta.outputs.buildOutput }}"
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-
           git add .
-
-          # Force-add build output
-          for dirname in build public dist out "$BUILD_OUTPUT"; do
-            find . -name "$dirname" -type d -maxdepth 4 -not -path "./.git/*" | while read d; do
-              if [ -f "$d/index.html" ]; then
-                git add -f "$d/"
-              fi
-            done
+          find . -name "$BUILD_OUTPUT" -type d -maxdepth 4 -not -path "./.git/*" | while read d; do
+            [ -f "$d/index.html" ] && git add -f "$d/"
           done
-
-          if git diff --staged --quiet; then
-            echo "No changes to commit."
-          else
-            git commit --no-verify -m "Stage 2: add translations (${{ github.event.inputs.locales }}) and rebuild"
+          if ! git diff --staged --quiet; then
+            git commit --no-verify -m "Stage 2: translations (${{ github.event.inputs.locales }})"
             git push origin main
           fi
