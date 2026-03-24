@@ -1,0 +1,50 @@
+{
+  "version.label": {
+    "message": "Next",
+    "description": "The label for version current"
+  },
+  "sidebar.tutorialSidebar.category.Getting started": {
+    "message": "Getting started",
+    "description": "The label for category Getting started in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Setting up your feed": {
+    "message": "Setting up your feed",
+    "description": "The label for category Setting up your feed in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Key features": {
+    "message": "Key features",
+    "description": "The label for category Key features in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Your profile": {
+    "message": "Your profile",
+    "description": "The label for category Your profile in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Squads": {
+    "message": "Squads",
+    "description": "The label for category Squads in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Plus": {
+    "message": "Plus",
+    "description": "The label for category Plus in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Organizations": {
+    "message": "Organizations",
+    "description": "The label for category Organizations in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Career Mode": {
+    "message": "Career Mode",
+    "description": "The label for category Career Mode in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Monetization (beta)": {
+    "message": "Monetization (beta)",
+    "description": "The label for category Monetization (beta) in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Customization": {
+    "message": "Customization",
+    "description": "The label for category Customization in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.For content creators": {
+    "message": "For content creators",
+    "description": "The label for category For content creators in sidebar tutorialSidebar"
+  }
+}

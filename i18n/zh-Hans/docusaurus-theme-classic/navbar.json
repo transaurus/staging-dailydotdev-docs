@@ -1,0 +1,18 @@
+{
+  "logo.alt": {
+    "message": "daily.dev Logo",
+    "description": "The alt text of navbar logo"
+  },
+  "item.label.Docs": {
+    "message": "Docs",
+    "description": "Navbar item with label Docs"
+  },
+  "item.label.What's new?": {
+    "message": "What's new?",
+    "description": "Navbar item with label What's new?"
+  },
+  "item.label.Contribute": {
+    "message": "Contribute",
+    "description": "Navbar item with label Contribute"
+  }
+}
