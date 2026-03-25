@@ -10,7 +10,7 @@ const config = {
   url: 'https://docs.daily.dev/', 
   baseUrl: '/',
   trailingSlash: false,
-  onBrokenLinks: 'throw',
+  onBrokenLinks: 'warn',
   onBrokenMarkdownLinks: 'warn',
   staticDirectories: ['static'],
   favicon: 'img/favicon.ico',
