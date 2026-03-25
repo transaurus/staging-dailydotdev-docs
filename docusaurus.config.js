@@ -4,7 +4,7 @@ const darkCodeTheme = require('prism-react-renderer').themes.dracula;
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  i18n: { defaultLocale: 'en', locales: ['en', 'zh-Hans'] },
+  i18n: { defaultLocale: 'en', locales: ["en", "zh-Hans"] },
   title: 'daily.dev',
   tagline: 'The complete guide to daily.dev for developers',
   url: 'https://docs.daily.dev/', 
